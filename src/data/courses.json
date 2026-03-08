@@ -1,0 +1,95 @@
+{
+  "the-permissionless-apprentice": {
+    "title": "The Permissionless Apprentice",
+    "tagline": "A step-by-step playbook for building traction online — used by 12,700+ entrepreneurs to start businesses, raise capital, win clients, and get promoted.",
+    "enrollment": "12,700+",
+    "modules": [
+      {
+        "title": "Philosophy",
+        "lessons": ["Arbitrage", "The Internet is Big", "What is a Permissionless Apprentice?", "Portfolios over Posturing"]
+      },
+      {
+        "title": "Strategy",
+        "lessons": ["Positive-sum Learning", "Take the Work Off", "Project Mentality", "Open Networks"]
+      },
+      {
+        "title": "Execution",
+        "lessons": ["Cold Emails", "Frictionless Value", "Overdelivering", "Building in Public"]
+      },
+      {
+        "title": "Mastery",
+        "lessons": ["Failsafe", "Diversification through Concentration", "Good Faith", "Shuhari", "Probabilities over Expectations"]
+      },
+      {
+        "title": "Case Studies",
+        "lessons": ["Igor / Atomic Search", "Nina Mufleh / Airbnb"]
+      }
+    ]
+  },
+  "build-once-sell-twice": {
+    "title": "Build Once, Sell Twice — The Productization Playbook",
+    "tagline": "The system behind Visualize Value's path from one-person studio to 7-figure product business — built for anyone with specialized knowledge and the willingness to share it.",
+    "enrollment": "5,300+",
+    "modules": [
+      {
+        "title": "The Goal",
+        "lessons": ["Build Once, Sell Twice", "The VV Story", "Engineering Freedom", "Executive Summary"]
+      },
+      {
+        "title": "The Game",
+        "lessons": ["Build Mindset", "Build Skill", "Build Process", "Build Reputation", "Build Product", "Build Authority"]
+      },
+      {
+        "title": "The Rules",
+        "lessons": ["Reputation, Reciprocity & Equity", "Ownership x Time = Freedom", "Value Creation", "Leverage", "Compounding", "Failure", "Content", "Service & Productized Service", "Product", "Proof of Work", "Divorcing Time & Money", "Curiosity Drives Competence"]
+      },
+      {
+        "title": "The Plays (Building)",
+        "lessons": ["Speak in Problems, Solve in Products", "Rapid Ideation", "Trust Profile", "The Permissionless Apprenticeship", "Content Leverage", "Story Arbitrage", "Tech Stack Tour", "Platform Periodization", "Structuring a Curriculum", "Curriculum as Content", "Interrupting Patterns"]
+      },
+      {
+        "title": "The Plays (Selling)",
+        "lessons": ["Selling Sawdust", "Selling to Sellers", "Organic Hype", "The Proof & Price Loop", "Justifying Your Prices"]
+      }
+    ]
+  },
+  "how-to-visualize-value": {
+    "title": "How to Visualize Value",
+    "tagline": "Learn to turn ideas into visuals that cut through the noise — whether you're starting from zero or sharpening an existing skill.",
+    "enrollment": "5,900+",
+    "modules": [
+      {
+        "title": "Context Setting",
+        "lessons": ["Introduction", "What is Design For?", "Leveraging the Invisible", "Visualize Your Value"]
+      },
+      {
+        "title": "Why Visuals Work",
+        "lessons": ["Making Ideas Visual", "Just Run", "Pattern Recognition", "This is Your Brain on Images", "Shared Symbols"]
+      },
+      {
+        "title": "Visualizing Value",
+        "lessons": ["The Visualize Value Process", "Via Symbols", "Via Metaphor", "Via Scale", "Visualizing Service Value"]
+      },
+      {
+        "title": "The Elements",
+        "lessons": ["Typography", "Restraint", "Alignment", "Image Treatment", "Negative Space"]
+      },
+      {
+        "title": "The Tools",
+        "lessons": ["Figma Basics", "Google Fonts", "Consistent Content Brands", "Unsplash", "Icons"]
+      },
+      {
+        "title": "Publishing Your Work",
+        "lessons": ["Publishing Mindset", "Formatting & Scheduling"]
+      },
+      {
+        "title": "Execution",
+        "lessons": ["Next Steps", "Figma Workspace"]
+      },
+      {
+        "title": "Bonus Content",
+        "lessons": ["How to 'Visualize Value' Office Hours", "Proof of Work & Sawdust", "Building Profitable Content Ecosystems", "Proving Your Intellectual Capital"]
+      }
+    ]
+  }
+}
