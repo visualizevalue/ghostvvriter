@@ -173,7 +173,7 @@ export function registerGenerateTools(server: McpServer) {
 
   server.tool(
     'generate_article',
-    `Write an article from selected tweets and visuals. Pass the title, angle, and IDs from suggest_article. Returns full ghostwriting context. Output uses {{TWEET_N}} and {{VISUAL_N}} embed markers.`,
+    `Write an article from selected tweets and visuals. Pass the title, angle, and IDs from suggest_article. Returns full ghostwriting context. Write tweets inline as blockquotes and visuals as images — no placeholders.`,
     {
       title: z.string().describe('Article title'),
       angle: z.string().describe('One-sentence thesis'),
@@ -193,20 +193,24 @@ export function registerGenerateTools(server: McpServer) {
       const selectedVisuals = visual_ids.map((id) => visualMap.get(id)).filter(Boolean) as Visual[]
 
       const tweetBlock = selectedTweets
-        .map((t, i) => `[TWEET_${i + 1}] "${t.text}" (${t.likes.toLocaleString()} likes, id: ${t.id})`)
-        .join('\n')
+        .map((t, i) => {
+          const embedHtml = `<blockquote class="twitter-tweet" data-conversation="none"><p>${t.text}</p>&mdash; <a href="https://x.com/jackbutcher/status/${t.id}">@jackbutcher</a></blockquote>`
+          return `[TWEET_${i + 1}] "${t.text}" (${t.likes.toLocaleString()} likes)\nEmbed HTML: ${embedHtml}`
+        })
+        .join('\n\n')
 
       const visualBlock = selectedVisuals
         .map((v, i) => {
           const desc = descriptions[v.id]
+          const url = imageUrl(v.data.image)
+          const figureHtml = `<figure><img src="${url}" alt="${(v.data.text || '').replace(/"/g, '&quot;')}" />${v.data.text ? `<figcaption>${v.data.text}</figcaption>` : ''}</figure>`
           return [
             `[VISUAL_${i + 1}] "${v.data.text || '(no text)'}"`,
             desc ? `  Context: ${desc}` : null,
-            `  Image: ${imageUrl(v.data.image)}`,
-            `  ID: ${v.id}`,
+            `  Figure HTML: ${figureHtml}`,
           ].filter(Boolean).join('\n')
         })
-        .join('\n')
+        .join('\n\n')
 
       const parts = [
         `# Write: "${title}"`,
@@ -217,19 +221,21 @@ export function registerGenerateTools(server: McpServer) {
         `**Title:** ${title}`,
         `**Angle:** ${angle}`,
         '',
-        `## Tweets`,
+        `## Tweets (use the embed HTML inline in the article)`,
         tweetBlock,
         '',
-        `## Visuals`,
+        `## Visuals (use the figure HTML inline in the article)`,
         visualBlock,
         '',
         `## Instructions`,
         `- Short paragraphs, no fluff, no transition words, no hedging`,
         `- Open with the idea, not a preamble`,
-        `- Embed tweets with {{TWEET_N}} markers — place where they hit hardest`,
-        `- Embed visuals with {{VISUAL_N}} markers — reinforce points, don't decorate`,
+        `- Place tweet embeds inline using the provided blockquote HTML — where they hit hardest`,
+        `- Place visual figures inline using the provided figure HTML — reinforce points, don't decorate`,
+        `- Do NOT use placeholder markers like {{TWEET_N}} — write the actual embed HTML directly in the article`,
         `- End sharp — no summary`,
         `- 500-1000 words, HTML (<p> tags)`,
+        `- Include <script async src="https://platform.twitter.com/widgets.js"></script> at the end`,
       ].join('\n')
 
       return { content: [{ type: 'text' as const, text: parts }] }
