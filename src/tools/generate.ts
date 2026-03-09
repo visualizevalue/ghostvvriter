@@ -1,7 +1,8 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
-import { readFileSync } from 'fs'
+import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { join } from 'path'
+import { homedir } from 'os'
 import { dataDir } from '../paths.js'
 
 type Tweet = {
@@ -239,6 +240,111 @@ export function registerGenerateTools(server: McpServer) {
       ].join('\n')
 
       return { content: [{ type: 'text' as const, text: parts }] }
+    }
+  )
+
+  // ─────────────────────────────────────────────────────────────
+  // PUBLISH DRAFT
+  //
+  // Saves the article as a standalone HTML file and tells
+  // the AI to open it in the browser for preview.
+  // ─────────────────────────────────────────────────────────────
+
+  server.tool(
+    'publish_draft',
+    `Save a generated article as a styled HTML file and open it in the browser. Call this after generate_article — pass the title and the HTML body you wrote. Saves to ~/ghostvvriter/ and returns the file path. Then open the file in the browser with: open <filepath>`,
+    {
+      title: z.string().describe('Article title'),
+      body_html: z.string().describe('The article body HTML you wrote (with embedded tweets and visuals)'),
+    },
+    async ({ title, body_html }) => {
+      const outDir = join(homedir(), 'ghostvvriter')
+      if (!existsSync(outDir)) mkdirSync(outDir, { recursive: true })
+
+      const slug = title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')
+
+      const filename = `${slug}.html`
+      const filepath = join(outDir, filename)
+
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>${title.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 48px 24px 96px;
+      line-height: 1.7;
+      color: #111;
+      background: #fff;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: 48px;
+    }
+    p { margin-bottom: 24px; font-size: 17px; }
+    figure {
+      margin: 40px 0;
+    }
+    figure img {
+      width: 100%;
+      display: block;
+      border-radius: 4px;
+    }
+    figcaption {
+      margin-top: 8px;
+      font-size: 14px;
+      color: #666;
+    }
+    blockquote.twitter-tweet {
+      border-left: 3px solid #ddd;
+      padding: 16px 20px;
+      margin: 32px 0;
+      font-size: 16px;
+      color: #333;
+    }
+    blockquote.twitter-tweet p { margin-bottom: 8px; }
+    blockquote.twitter-tweet a { color: #666; font-size: 14px; text-decoration: none; }
+    a { color: #111; }
+    @media (prefers-color-scheme: dark) {
+      body { background: #111; color: #eee; }
+      blockquote.twitter-tweet { border-color: #333; color: #ccc; }
+      blockquote.twitter-tweet a { color: #888; }
+      figcaption { color: #888; }
+    }
+  </style>
+</head>
+<body>
+  <h1>${title.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</h1>
+  ${body_html}
+  <footer style="margin-top:64px;padding-top:32px;border-top:1px solid #ddd;font-size:14px;color:#666;">
+    Written by <a href="https://visualizevalue.com" style="color:inherit;text-decoration:underline;">Visualize Value</a>
+  </footer>
+  <script async src="https://platform.twitter.com/widgets.js"></script>
+</body>
+</html>`
+
+      writeFileSync(filepath, html, 'utf-8')
+
+      return {
+        content: [
+          {
+            type: 'text' as const,
+            text: `Article saved to: ${filepath}\n\nOpen it in the browser to preview:\n\nopen ${filepath}`,
+          },
+        ],
+      }
     }
   )
 
