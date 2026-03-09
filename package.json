@@ -1,6 +1,6 @@
 {
   "name": "ghostvvriter",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Content creation engine for Visualize Value — generates articles, drafts tweets, and creates visual concepts from Jack Butcher's archive",
   "type": "module",
   "main": "dist/server.js",
