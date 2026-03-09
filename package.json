@@ -1,11 +1,11 @@
 {
-  "name": "openclavv",
+  "name": "ghostvvriter",
   "version": "0.3.0",
-  "description": "VV knowledge layer for AI agents — MCP server for generating articles, drafting tweets, and applying frameworks from Visualize Value",
+  "description": "Content creation engine for Visualize Value — generates articles, drafts tweets, and creates visual concepts from Jack Butcher's archive",
   "type": "module",
   "main": "dist/server.js",
   "bin": {
-    "openclavv": "dist/server.js"
+    "ghostvvriter": "dist/server.js"
   },
   "files": [
     "dist",
@@ -25,7 +25,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/visualizevalue/openclavv.git"
+    "url": "https://github.com/visualizevalue/ghostvvriter.git"
   },
   "license": "MIT",
   "dependencies": {
